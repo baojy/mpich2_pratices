@@ -1,0 +1,24 @@
+以下今天64bit环境下win8+mpich2+vs2012使用过程中出现的问题
+	1.win8使用安装过程中使用Microsoft账户登录，导致没有本地用户用于mpi登录。
+		
+		解决方法：创建本地帐户test，设置密码test
+
+	2.win8 64bit下安装之后没有启动MPICH2 Process Manager, Argonne National Lab服务，导致报错，错误信息如下：
+		#Error while connecting to host, 由于目标机器积极拒绝，无法连接。 (10061)
+		#Connect on sock (host=FQ-201110181946, port=8676) failed, exhaused all end points
+		#Unable to connect to 'FQ-201110181946:8676',
+		#sock error: Error = -1
+
+		解决方法：开启服务，方法：切入bin目录，运行"smpd -install -phrase behappy"
+			注：win7、win8下需要管理员cmd
+
+	3.此问题出现于cpi.exe运行，必须勾选"run in an separate window"
+
+	4.vs2012环境配置中出现了N多错误最终导致无法编译 错误信息LNK2019-无法解析的外部符号.
+		
+		解决方法：配置mpich2-64bit环境失败，正在尝试mpich2-32bit
+			!问题解决，所安装的mpich2-64bit与vs下创建的console-32bit不符，无法编译，切换为32-bit之后一切解决。-_-#(浪费了好几个小时）。
+
+	5.好了，真是此起彼伏啊，编译问题解决之后出现了access denied (launch failed:CreateProcess failed error 5)，但是vs下居然能够单线程运行，直接运行编译过程需也可以计算，坑爹！
+		
+		解决方法：(未解决-_-!问题在哪里都不知道)
